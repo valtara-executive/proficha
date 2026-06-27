@@ -1,46 +1,46 @@
-import form_medico from './form_medico';
-import form_psicologia from './form_psicologia';
-import form_nutricion from './form_nutricion';
-import form_fisioterapia from './form_fisioterapia';
-import form_odontologia from './form_odontologia';
-import form_enfermeria from './form_enfermeria';
-import form_optometria from './form_optometria';
-import form_podologia from './form_podologia';
-import form_pediatria from './form_pediatria';
-import form_logopedia from './form_logopedia';
-import form_masoterapia from './form_masoterapia';
-import form_acupuntura from './form_acupuntura';
-import form_quiropraxia from './form_quiropraxia';
-import form_reiki from './form_reiki';
-import form_coaching from './form_coaching';
-import form_terapia_pareja from './form_terapia_pareja';
-import form_soladora from './form_soladora';
-import form_psicopedagogia from './form_psicopedagogia';
-import form_doula from './form_doula';
-import form_manicura from './form_manicura';
-import form_cosmetologia from './form_cosmetologia';
-import form_depilacion from './form_depilacion';
-import form_med_estetica from './form_med_estetica';
-import form_maquillaje from './form_maquillaje';
-import form_tatuaje from './form_tatuaje';
-import form_piercing from './form_piercing';
-import form_microblading from './form_microblading';
-import form_micropigmentacion from './form_micropigmentacion';
-import form_entrenamiento from './form_entrenamiento';
-import form_yoga from './form_yoga';
-import form_artes_marciales from './form_artes_marciales';
-import form_veterinaria from './form_veterinaria';
+import { formMedico } from './form_medico';
+import { formPsicologia } from './form_psicologia';
+import { formNutricion } from './form_nutricion';
+import { formFisioterapia } from './form_fisioterapia';
+import { formOdontologia } from './form_odontologia';
+import { formEnfermeria } from './form_enfermeria';
+import { formOptometria } from './form_optometria';
+import { formPodologia } from './form_podologia';
+import { formPediatria } from './form_pediatria';
+import { formLogopedia } from './form_logopedia';
+import { formMasoterapia } from './form_masoterapia';
+import { formAcupuntura } from './form_acupuntura';
+import { formQuiropraxia } from './form_quiropraxia';
+import { formReiki } from './form_reiki';
+import { formCoaching } from './form_coaching';
+import { formTerapiaPareja } from './form_terapia_pareja';
+import { formSoladora } from './form_soladora';
+import { formPsicopedagogia } from './form_psicopedagogia';
+import { formDoula } from './form_doula';
+import { formManicura } from './form_manicura';
+import { formCosmetologia } from './form_cosmetologia';
+import { formDepilacion } from './form_depilacion';
+import { formMedEstetica } from './form_med_estetica';
+import { formMaquillaje } from './form_maquillaje';
+import { formTatuaje } from './form_tatuaje';
+import { formPiercing } from './form_piercing';
+import { formMicroblading } from './form_microblading';
+import { formMicropigmentacion } from './form_micropigmentacion';
+import { formEntrenamiento } from './form_entrenamiento';
+import { formYoga } from './form_yoga';
+import { formArtesMarciales } from './form_artes_marciales';
+import { formVeterinaria } from './form_veterinaria';
 
 export const allForms = {
-  medico: form_medico, psicologia: form_psicologia, nutricion: form_nutricion,
-  fisioterapia: form_fisioterapia, odontologia: form_odontologia, enfermeria: form_enfermeria,
-  optometria: form_optometria, podologia: form_podologia, pediatria: form_pediatria,
-  logopedia: form_logopedia, masoterapia: form_masoterapia, acupuntura: form_acupuntura,
-  quiropraxia: form_quiropraxia, reiki: form_reiki, coaching: form_coaching,
-  terapia_pareja: form_terapia_pareja, soladora: form_soladora, psicopedagogia: form_psicopedagogia,
-  doula: form_doula, manicura: form_manicura, cosmetologia: form_cosmetologia,
-  depilacion: form_depilacion, med_estetica: form_med_estetica, maquillaje: form_maquillaje,
-  tatuaje: form_tatuaje, piercing: form_piercing, microblading: form_microblading,
-  micropigmentacion: form_micropigmentacion, entrenamiento: form_entrenamiento,
-  yoga: form_yoga, artes_marciales: form_artes_marciales, veterinaria: form_veterinaria
+  medico: formMedico, psicologia: formPsicologia, nutricion: formNutricion,
+  fisioterapia: formFisioterapia, odontologia: formOdontologia, enfermeria: formEnfermeria,
+  optometria: formOptometria, podologia: formPodologia, pediatria: formPediatria,
+  logopedia: formLogopedia, masoterapia: formMasoterapia, acupuntura: formAcupuntura,
+  quiropraxia: formQuiropraxia, reiki: formReiki, coaching: formCoaching,
+  terapia_pareja: formTerapiaPareja, soladora: formSoladora, psicopedagogia: formPsicopedagogia,
+  doula: formDoula, manicura: formManicura, cosmetologia: formCosmetologia,
+  depilacion: formDepilacion, med_estetica: formMedEstetica, maquillaje: formMaquillaje,
+  tatuaje: formTatuaje, piercing: formPiercing, microblading: formMicroblading,
+  micropigmentacion: formMicropigmentacion, entrenamiento: formEntrenamiento,
+  yoga: formYoga, artes_marciales: formArtesMarciales, veterinaria: formVeterinaria
 };
