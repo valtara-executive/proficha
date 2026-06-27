@@ -22,8 +22,8 @@ Desarrollado por la **Dirección de Tecnologías, Sistemas y Desarrollo de Grupo
 | **Fase 1** | ✅ Completa | Motor central web, 32 sectores, dashboard, PDFs. |
 | **Fase 2** | ✅ Completa | Migración a Capacitor y motor SQLite (Offline-First). |
 | **Fase 3** | ✅ Completa | Integración OAuth 2.0 y Google Sign-In nativo. |
-| **Fase 4** | 🔄 En Progreso | Sincronización incremental con Google Drive. |
-| **Fase 5** | ⏳ Pendiente | Optimización UX (Splash screen, indicadores offline). |
+| **Fase 4** | ✅ Completa | Sincronización incremental con Google Drive. |
+| **Fase 5** | 🔄 En Progreso | Optimización UX (Splash screen, indicadores offline). |
 | **Fase 6** | ⏳ Pendiente | CI/CD nativo (APK/AAB automáticos en GitHub Actions). |
 
 ---
