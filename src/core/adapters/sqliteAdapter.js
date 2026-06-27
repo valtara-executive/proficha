@@ -12,10 +12,7 @@ class SQLiteAdapter {
     if (this.isInitialized) return;
     
     try {
-      // Si por alguna razón pruebas en el navegador web local con Vite, evitamos que la app colapse.
-      // En la APK final (Android), esto siempre pasará de largo y conectará con SQLite nativo.
       if (Capacitor.getPlatform() === 'web') {
-        console.warn('Ejecutando en entorno Web. SQLite nativo no está disponible aquí. Usa un emulador o dispositivo físico para probar la base de datos.');
         return; 
       }
       
@@ -26,15 +23,14 @@ class SQLiteAdapter {
       await this.db.open();
       await this.createTables();
       this.isInitialized = true;
-      console.log('Base de datos SQLite inicializada correctamente.');
     } catch (error) {
-      console.error('Error crítico inicializando SQLite Adapter:', error);
+      console.error('Error inicializando SQLite Adapter:', error);
       throw error;
     }
   }
 
   async createTables() {
-    const query = `
+    const queryPacientes = `
       CREATE TABLE IF NOT EXISTS pacientes (
         id TEXT PRIMARY KEY NOT NULL,
         nombre TEXT NOT NULL,
@@ -44,18 +40,44 @@ class SQLiteAdapter {
         estado_sincronizacion INTEGER DEFAULT 0
       );
     `;
-    await this.db.execute(query);
+
+    const queryExpedientes = `
+      CREATE TABLE IF NOT EXISTS expedientes (
+        id TEXT PRIMARY KEY NOT NULL,
+        paciente_id TEXT NOT NULL,
+        tipo_formulario TEXT NOT NULL,
+        datos_json TEXT NOT NULL,
+        fecha_creacion TEXT NOT NULL,
+        version_local INTEGER DEFAULT 1,
+        hash_integridad TEXT,
+        estado_sincronizacion INTEGER DEFAULT 0,
+        FOREIGN KEY(paciente_id) REFERENCES pacientes(id)
+      );
+    `;
+
+    const queryArchivos = `
+      CREATE TABLE IF NOT EXISTS archivos_adjuntos (
+        id TEXT PRIMARY KEY NOT NULL,
+        expediente_id TEXT NOT NULL,
+        tipo TEXT NOT NULL,
+        uri_local TEXT NOT NULL,
+        drive_id TEXT,
+        FOREIGN KEY(expediente_id) REFERENCES expedientes(id)
+      );
+    `;
+
+    await this.db.execute(queryPacientes);
+    await this.db.execute(queryExpedientes);
+    await this.db.execute(queryArchivos);
   }
 
   async executeQuery(query, values = []) {
     if (!this.isInitialized) await this.initDatabase();
-    if (!this.db) return { values: [] }; // Prevención de errores en entorno web
     return await this.db.query(query, values);
   }
 
   async executeRun(query, values = []) {
     if (!this.isInitialized) await this.initDatabase();
-    if (!this.db) return { changes: { changes: 0 } }; // Prevención de errores en entorno web
     return await this.db.run(query, values);
   }
 }
