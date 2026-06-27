@@ -41,6 +41,9 @@ jobs:
     - name: Grant Gradle Execution Permissions
       run: chmod +x android/gradlew
 
+    - name: Obtain Android SHA-1 Fingerprint
+      run: keytool -list -v -keystore ~/.android/debug.keystore -alias androiddebugkey -storepass android -keypass android
+
     - name: Compile Application (Debug APK)
       run: |
         cd android
