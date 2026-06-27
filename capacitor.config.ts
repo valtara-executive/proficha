@@ -19,6 +19,16 @@ const config: CapacitorConfig = {
       scopes: ["profile", "email", "https://www.googleapis.com/auth/drive.file"],
       serverClientId: "1099016850057-v232nk1h4nvnhtu01cf0j5kfan3t0884.apps.googleusercontent.com",
       forceCodeForRefreshToken: true
+    },
+    SplashScreen: {
+      launchShowDuration: 2000,
+      launchAutoHide: true,
+      backgroundColor: "#ffffff",
+      androidSplashResourceName: "splash",
+      androidScaleType: "CENTER_CROP",
+      showSpinner: true,
+      androidSpinnerStyle: "large",
+      spinnerColor: "#000000"
     }
   }
 };
