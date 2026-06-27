@@ -1,72 +1,19 @@
-# ProFicha — Expedientes Profesionales
-
-Generador de expedientes y fichas clínicas para profesionales independientes.  
-Desarrollado por la **Dirección de Tecnologías, Sistemas y Desarrollo de Grupo Gevizz S.A.S.**
-
----
-
-## 🏗 Estructura del proyecto
-
-```
-proficha/
+ProFicha — Expedientes ProfesionalesGenerador de expedientes y fichas clínicas para profesionales independientes.Desarrollado por la Dirección de Tecnologías, Sistemas y Desarrollo de Grupo Gevizz S.A.S.🏗 Arquitectura Definitiva (Local-First Nativa)El proyecto ha evolucionado de una PWA tradicional a una Aplicación Nativa Híbrida (Android). Utiliza Capacitor para acceder al hardware del dispositivo y SQLite como base de datos principal, garantizando un funcionamiento 100% offline, rápido y seguro.proficha/
 ├── src/
-│   ├── ProFicha.jsx        ← App principal (motor central Fase 1)
-│   ├── driveSync.js        ← Motor de sincronización con Google Drive
-│   └── main.jsx            ← Entry point React
-├── public/
-│   └── favicon.svg
-├── .github/
-│   └── workflows/
-│       └── deploy.yml      ← CI/CD → GitHub Pages automático
-├── index.html
-├── vite.config.js
+│   ├── core/
+│   │   ├── adapters/     ← Conexión física nativa (SQLite y Filesystem)
+│   │   ├── repositories/ ← Operaciones y consultas a la base de datos
+│   │   └── services/     ← Lógica de negocio (Validaciones y UUIDs)
+│   ├── forms/            ← Módulos de especialidades clínicas (Lazy Loaded)
+│   ├── proFicha.jsx      ← UI Principal (Dashboard)
+│   └── main.jsx          ← Entry point de React
+├── capacitor.config.ts   ← Configuración del motor nativo Android
+├── vite.config.js        ← Empaquetador web optimizado
 └── package.json
-```
-
----
-
-## 🚀 Fases de desarrollo
-
-| Fase | Estado | Descripción |
-|------|--------|-------------|
-| Fase 1 | ✅ Completa | Motor central: 32 sectores, dashboard, PDF bancario, Drive, accesibilidad, ayuda |
-| Fase 2 | ⏳ En desarrollo | 32 formularios hiper-detallados por sector con consentimientos y campos especializados |
-| Fase 3 | 🔮 Pendiente | Google Drive API real, base de datos nube, multi-dispositivo empresarial |
-
----
-
-## 📲 Cómo convertir a APK
-
-1. El Action de GitHub compila y despliega automáticamente en cada push
-2. Ir a **[pwbuilder.com](https://www.pwabuilder.com)**
-3. Pegar la URL: `https://valtara-executive.github.io/proficha/`
-4. PWABuilder detecta el manifest PWA y genera el `.apk` listo para instalar
-
----
-
-## ☁️ Google Drive — Organización de carpetas
-
-```
-ProFicha — Expedientes/
-├── Medicina General/
-│   ├── Alfredo Guzmán Luna Pérez/
-│   │   ├── expediente_Alfredo_Guzman_2025-01-15_09h30m.json
-│   │   └── expediente_Alfredo_Guzman_2025-01-22_14h00m.json
-│   └── María López Sánchez/
-│       └── expediente_Maria_Lopez_2025-01-16_11h00m.json
-├── Masoterapia/
-│   └── ...
-└── config_2025-01-15_08h00m.json
-```
-
----
-
-## 📞 Soporte oficial
-
-- **WhatsApp:** +52 33 48 57 2070  
-- **Correo:** angel.guerrero@valtaraexecutive.com  
-- **Horario:** Lunes a viernes, 9:00 – 18:00 h (hora del centro de México)
-
----
-
-*ProFicha v1.0 · Fase 1 · Grupo Gevizz S.A.S.*
+🚀 Fases de Desarrollo (Metodología Estricta)FaseEstadoDescripciónFase 1✅ CompletaPreparación del proyecto. Integración de Capacitor, reestructuración y Lazy Loading en Formularios.Fase 2⏳ En desarrolloCapa de Almacenamiento Local. Motor SQLite construido. Pendiente: Conectar la Base de Datos a la Interfaz Gráfica.Fase 3🔮 PendienteAutenticación Nativa. Inicio de sesión único con Google Sign-In (OAuth 2.0).Fase 4🔮 PendienteGoogle Drive. Respaldos automáticos, restauración y sincronización incremental.Fase 5🔮 PendienteUI/UX Nativa. Splash screen, indicadores de estado offline, animaciones y fluidez Android.Fase 6🔮 PendienteProducción. Configuración de GitHub Actions para generar APK y AAB automáticamente.⚙️ Proceso de Compilación Android⚠️ Nota Importante: El uso de PWABuilder ha sido descontinuado.Actualmente el proyecto está en construcción estructural. Durante la Fase 6, se configurará un flujo de trabajo (Workflow) automatizado en GitHub Actions. A partir de ese momento, cada vez que se apruebe una versión en la rama principal, los servidores de GitHub compilarán la aplicación y generarán los archivos .apk (Debug/Release) y .aab listos para ser descargados y distribuidos.☁️ Google Drive — Nueva Organización (Fase 4)La sincronización en la nube será estrictamente para respaldos. Toda la información existirá primero en el dispositivo físico (SQLite).Carpeta Drive: /ProFicha/
+├── expedientes/
+├── consentimientos/
+├── firmas_imagenes/
+├── plantillas/
+└── sync_manifest.json
+📞 Soporte oficialWhatsApp: +52 33 48 57 2070Correo: angel.guerrero@valtaraexecutive.comHorario: Lunes a viernes, 9:00 – 18:00 h (hora del centro de México)ProFicha v2.0-alpha · Arquitectura Local-First · Grupo Gevizz S.A.S.
