@@ -3,7 +3,7 @@ name: Build Android APK
 on:
   push:
     branches: [ "main" ]
-  workflow_dispatch: 
+  workflow_dispatch:
 
 jobs:
   build:
@@ -35,8 +35,18 @@ jobs:
 
     - name: Inject Native Android Motor
       run: |
-        npx cap add android
+        npx cap add android || true
         npx cap sync android
+
+    - name: Inject server_client_id into strings.xml
+      run: |
+        STRINGS_FILE="android/app/src/main/res/values/strings.xml"
+        if grep -q "server_client_id" "$STRINGS_FILE"; then
+          echo "server_client_id already present, skipping."
+        else
+          sed -i 's|</resources>|    <string name="server_client_id">1099016850057-v232nk1h4nvnhtu01cf0j5kfan3t0884.apps.googleusercontent.com</string>\n</resources>|' "$STRINGS_FILE"
+          echo "server_client_id injected."
+        fi
 
     - name: Grant Gradle Execution Permissions
       run: chmod +x android/gradlew
@@ -46,8 +56,34 @@ jobs:
         cd android
         ./gradlew assembleDebug
 
-    - name: Obtain Android SHA-1 Fingerprint
-      run: keytool -list -v -keystore ~/.android/debug.keystore -alias androiddebugkey -storepass android -keypass android
+    - name: Generate debug keystore if missing and extract SHA-1
+      run: |
+        KEYSTORE="$HOME/.android/debug.keystore"
+        mkdir -p "$HOME/.android"
+        if [ ! -f "$KEYSTORE" ]; then
+          echo "Keystore not found — generating..."
+          keytool -genkeypair \
+            -v \
+            -keystore "$KEYSTORE" \
+            -alias androiddebugkey \
+            -keyalg RSA \
+            -keysize 2048 \
+            -validity 10000 \
+            -storepass android \
+            -keypass android \
+            -dname "CN=Android Debug,O=Android,C=US"
+        fi
+        echo ""
+        echo "========================================"
+        echo "  SHA-1 PARA GOOGLE CLOUD CONSOLE"
+        echo "========================================"
+        keytool -list -v \
+          -keystore "$KEYSTORE" \
+          -alias androiddebugkey \
+          -storepass android \
+          -keypass android \
+          | grep "SHA1:"
+        echo "========================================"
 
     - name: Upload Generated APK
       uses: actions/upload-artifact@v4
