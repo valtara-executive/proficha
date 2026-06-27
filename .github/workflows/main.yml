@@ -1,4 +1,5 @@
-name: Build Android APK
+concurrency:
+  name: Build Android APK
 
 on:
   push:
@@ -18,15 +19,16 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: '20'
-        # Eliminamos la instrucción de caché que estaba causando el error fatal
 
     - name: 🛠️ Instalar dependencias del proyecto
-      run: npm install
+      run: |
+        npm cache clean --force
+        npm install
 
     - name: 🏗️ Construir React (Vite)
       run: npm run build
 
-    - name: 🤖 Inyectar motor nativo Android (Capacitor)
+    - name: 🤖 Inyectar motor nativo Android
       run: |
         npx cap add android
         npx cap sync android
