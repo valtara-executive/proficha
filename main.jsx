@@ -1,6 +1,6 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import ProFicha from './ProFicha.jsx'
+import ProFicha from './proFicha.jsx'
 import { dbAdapter } from './core/adapters/sqliteAdapter.js'
 
 const initApp = async () => {
