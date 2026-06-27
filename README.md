@@ -23,8 +23,8 @@ Desarrollado por la **Dirección de Tecnologías, Sistemas y Desarrollo de Grupo
 | **Fase 2** | ✅ Completa | Migración a Capacitor y motor SQLite (Offline-First). |
 | **Fase 3** | ✅ Completa | Integración OAuth 2.0 y Google Sign-In nativo. |
 | **Fase 4** | ✅ Completa | Sincronización incremental con Google Drive. |
-| **Fase 5** | 🔄 En Progreso | Optimización UX (Splash screen, indicadores offline). |
-| **Fase 6** | ⏳ Pendiente | CI/CD nativo (APK/AAB automáticos en GitHub Actions). |
+| **Fase 5** | ✅ Completa | Optimización UX (Splash screen, indicadores offline). |
+| **Fase 6** | 🔄 En Progreso | CI/CD nativo (APK automáticos en GitHub Actions). |
 
 ---
 
