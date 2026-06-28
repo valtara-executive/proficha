@@ -1,6 +1,5 @@
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 import { Preferences } from '@capacitor/preferences';
-import { Capacitor } from '@capacitor/core';
 
 class AuthService {
   constructor() {
@@ -9,7 +8,7 @@ class AuthService {
   }
 
   init() {
-    if (!this.initialized && Capacitor.getPlatform() !== 'web') {
+    if (!this.initialized) {
       GoogleAuth.initialize({
         clientId: '1099016850057-v232nk1h4nvnhtu01cf0j5kfan3t0884.apps.googleusercontent.com',
         scopes: ['profile', 'email', 'https://www.googleapis.com/auth/drive.file'],
