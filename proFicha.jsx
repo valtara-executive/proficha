@@ -1417,4 +1417,209 @@ export default function ProFicha() {
         ))}
 
         {/* Footer credits */}
-        <div style={{ textAlign: "center", padding: "28px 0 8px", color:
+        <div style={{ textAlign: "center", padding: "28px 0 8px", color: "var(--sub)", fontSize: "0.78rem", lineHeight: 1.9 }}>
+          <div style={{ marginBottom: 4 }}><strong style={{ color: "var(--text)" }}>{t.version}</strong></div>
+          <div>{t.madeWith}</div>
+          <div style={{ marginTop: 8, padding: "12px 16px", background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 12, display: "inline-block", textAlign: "center" }}>
+            <div style={{ fontWeight: 700, color: "var(--text)", fontSize: "0.8rem", marginBottom: 2 }}>
+              {lang === "es" ? "Desarrollado por" : "Developed by"}
+            </div>
+            <div style={{ color: "var(--accent)", fontWeight: 900, fontSize: "0.88rem" }}>
+              Dirección de Tecnologías, Sistemas y Desarrollo
+            </div>
+            <div style={{ color: "var(--sub)", fontSize: "0.78rem", marginTop: 2 }}>
+              Grupo Gevizz S.A.S. · {lang === "es" ? "Desarrollos centrados en la experiencia del usuario" : "User experience-centered development"}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const navItems = [
+    { id: "dashboard", label: t.dashboard, icon: "home" },
+    { id: "sectors", label: t.sectors, icon: "sectors" },
+    { id: "records", label: t.records, icon: "records" },
+    { id: "settings", label: t.settings, icon: "settings" },
+    { id: "accessibility", label: t.accessibility, icon: "accessibility" },
+    { id: "help", label: t.help, icon: "help" },
+  ];
+
+  const greetData = GREET(profile.name || profile.business, lang);
+  const avatarChar = (profile.name || profile.business || "P")[0].toUpperCase();
+
+  // ── Login Guard ─────────────────────────────────────────────
+  if (authLoading || !user) {
+    return (
+      <>
+        <style>{css}</style>
+        <div className="pf-login">
+          <video
+            className="pf-login-video"
+            src="./public/logotipo.mp4"
+            autoPlay
+            loop
+            muted
+            playsInline
+          />
+          <div className="pf-login-overlay" />
+          <div className="pf-login-content">
+            <img className="pf-login-logo" src="./logotipo.png" alt="ProFicha" />
+            <div className="pf-login-title">ProFicha</div>
+            <div className="pf-login-tagline">
+              {lang === "es"
+                ? "Tu expediente profesional, en tu mano."
+                : "Your professional record, in your hands."}
+            </div>
+            {authLoading ? (
+              <div className="pf-login-spinner" />
+            ) : (
+              <button className="pf-login-btn-google" onClick={login}>
+                <svg width="22" height="22" viewBox="0 0 24 24">
+                  <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                  <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                  <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/>
+                  <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                </svg>
+                {lang === "es" ? "Continuar con Google" : "Continue with Google"}
+              </button>
+            )}
+            <div className="pf-login-legal">
+              {lang === "es"
+                ? "Al continuar, aceptas los Términos de Uso y la Política de Privacidad de ProFicha."
+                : "By continuing, you accept ProFicha's Terms of Use and Privacy Policy."}
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <style>{css}</style>
+      <div className="pf-app">
+        {/* Sidebar Overlay Mobile */}
+        <div className={`pf-overlay ${sidebarOpen ? "show" : ""}`} onClick={() => setSidebarOpen(false)} />
+
+        {/* Sidebar */}
+        <aside className={`pf-sidebar ${sidebarOpen ? "open" : ""}`}>
+          <div className="pf-sidebar-logo">
+            <div className="brand">ProFicha</div>
+            <div className="tagline">{t.tagline}</div>
+          </div>
+          <nav className="pf-nav">
+            {navItems.slice(0, 4).map(item => (
+              <button key={item.id} className={`pf-nav-item ${activeNav === item.id ? "active" : ""}`} onClick={() => navigate(item.id)}>
+                <Icon name={item.icon} size={20} color="currentColor" />
+                {item.label}
+              </button>
+            ))}
+            <div className="pf-nav-sep" />
+            {navItems.slice(4).map(item => (
+              <button key={item.id} className={`pf-nav-item ${activeNav === item.id ? "active" : ""}`} onClick={() => navigate(item.id)}>
+                <Icon name={item.icon} size={20} color="currentColor" />
+                {item.label}
+              </button>
+            ))}
+          </nav>
+          <div className="pf-sidebar-footer">
+            <div>{t.version}</div>
+            <div style={{ marginTop: 4, fontSize: "0.68rem", lineHeight: 1.5 }}>
+              <div style={{ color: "var(--accent)", fontWeight: 700 }}>Grupo Gevizz S.A.S.</div>
+              <div>Dir. Tecnologías y Desarrollo</div>
+            </div>
+          </div>
+        </aside>
+
+        {/* Main */}
+        <main className="pf-main">
+          {/* Top Bar */}
+          <header className="pf-topbar">
+            <div className="pf-topbar-left">
+              <button className="pf-icon-btn pf-hamburger" onClick={() => setSidebarOpen(!sidebarOpen)}>
+                <Icon name="menu" size={20} color="currentColor" />
+              </button>
+              <div className="pf-topbar-greeting">
+                <h1>{greetData[0]}</h1>
+                <p>{greetData[1]}</p>
+              </div>
+            </div>
+            <div className="pf-topbar-right">
+              <button className="pf-icon-btn" title={lang === "es" ? "Cambiar idioma" : "Change language"} onClick={() => setLang(l => l === "es" ? "en" : "es")}>
+                <span style={{ fontSize: "1rem" }}>{lang === "es" ? "🇺🇸" : "🇲🇽"}</span>
+              </button>
+              <button className="pf-icon-btn" title={t.colorTheme} onClick={() => { const idx = PALETTES.findIndex(p => p.id === palette); setPalette(PALETTES[(idx + 1) % PALETTES.length].id); }}>
+                <Icon name={palette === "light" ? "moon" : "sun"} size={18} color="currentColor" />
+              </button>
+              <div className="pf-avatar" onClick={() => navigate("settings")} title={t.profile}>
+                {user?.imageUrl ? <img src={user.imageUrl} alt={user.name} style={{ width: "100%", height: "100%", borderRadius: "50%", objectFit: "cover" }} /> : profile.logo ? <img src={profile.logo} alt="logo" /> : avatarChar}
+              </div>
+            </div>
+          </header>
+
+          {/* Content */}
+          <div className="pf-content">
+            {activeNav === "dashboard" && <DashboardView />}
+            {activeNav === "sectors" && <SectorsView />}
+            {activeNav === "records" && <RecordsView />}
+            {activeNav === "settings" && <SettingsView />}
+            {activeNav === "accessibility" && <AccessibilityView />}
+            {activeNav === "help" && <HelpView />}
+          </div>
+        </main>
+
+        {/* Toast */}
+        {toast && (
+          <div className={`pf-toast ${toast.type}`}>
+            {toast.type === "success" && <Icon name="check" size={18} color="#10b981" />}
+            {toast.type === "error" && <Icon name="x" size={18} color="#ef4444" />}
+            {toast.type === "info" && <span style={{ fontSize: "1rem" }}>ℹ️</span>}
+            {toast.msg}
+          </div>
+        )}
+
+        {/* Modals */}
+        {modal?.type === "deleteRecord" && (
+          <div className="pf-modal-bg" onClick={() => setModal(null)}>
+            <div className="pf-modal" onClick={e => e.stopPropagation()}>
+              <h3>🗑️ {t.deleteRecord}</h3>
+              <p>{t.confirmReset}</p>
+              <div className="pf-modal-actions">
+                <button className="pf-btn pf-btn-ghost" onClick={() => setModal(null)}>{t.cancel}</button>
+                <button className="pf-btn pf-btn-danger" onClick={() => { deleteRecord(modal.id); setModal(null); }}>{t.confirm}</button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {modal?.type === "resetApp" && (
+          <div className="pf-modal-bg" onClick={() => setModal(null)}>
+            <div className="pf-modal" onClick={e => e.stopPropagation()}>
+              <h3>⚠️ {t.resetApp}</h3>
+              <p>{t.confirmReset}</p>
+              <div className="pf-modal-actions">
+                <button className="pf-btn pf-btn-ghost" onClick={() => setModal(null)}>{t.cancel}</button>
+                <button className="pf-btn pf-btn-danger" onClick={resetApp}>{t.confirm}</button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {modal?.type === "exportConfig" && (
+          <div className="pf-modal-bg" onClick={() => setModal(null)}>
+            <div className="pf-modal" onClick={e => e.stopPropagation()}>
+              <h3>🔒 {t.exportConfig}</h3>
+              <p>{lang === "es" ? "Ingresa la contraseña empresarial que entregarás a tus colaboradores para que puedan importar esta configuración. Tú la defines y la compartes con quien autorice." : "Enter the enterprise password you will give your collaborators to import this configuration. You define it and share it with authorized users only."}</p>
+              <input className="pf-input" type="password" placeholder={t.configPassword} onChange={e => setModal(m => ({ ...m, password: e.target.value }))} autoFocus />
+              <div className="pf-modal-actions" style={{ marginTop: 16 }}>
+                <button className="pf-btn pf-btn-ghost" onClick={() => setModal(null)}>{t.cancel}</button>
+                <button className="pf-btn pf-btn-primary" onClick={exportConfig}><Icon name="download" size={16} color="inherit" /> {t.exportConfig}</button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </>
+  );
+   }
