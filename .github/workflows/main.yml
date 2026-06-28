@@ -48,27 +48,33 @@ jobs:
           echo "server_client_id injected."
         fi
 
-    - name: PASO TEMPORAL — Generar keystore definitivo UNA SOLA VEZ
+    - name: Restore persistent debug keystore (or create it on first run)
       run: |
         KEYSTORE_DIR="$HOME/.android"
         KEYSTORE="$KEYSTORE_DIR/debug.keystore"
         mkdir -p "$KEYSTORE_DIR"
 
-        echo "Generando el keystore definitivo (esta es la ULTIMA vez que cambia)..."
-        keytool -genkeypair \
-          -v \
-          -keystore "$KEYSTORE" \
-          -alias androiddebugkey \
-          -keyalg RSA \
-          -keysize 2048 \
-          -validity 10000 \
-          -storepass android \
-          -keypass android \
-          -dname "CN=Android Debug,O=Android,C=US"
+        if [ -n "${{ secrets.DEBUG_KEYSTORE_BASE64 }}" ]; then
+          echo "Restaurando keystore fijo guardado en secrets..."
+          echo "${{ secrets.DEBUG_KEYSTORE_BASE64 }}" | base64 -d > "$KEYSTORE"
+        else
+          echo "ADVERTENCIA: no hay secret DEBUG_KEYSTORE_BASE64 configurado."
+          echo "Generando un keystore nuevo. Esto cambiará el SHA-1 otra vez."
+          keytool -genkeypair \
+            -v \
+            -keystore "$KEYSTORE" \
+            -alias androiddebugkey \
+            -keyalg RSA \
+            -keysize 2048 \
+            -validity 10000 \
+            -storepass android \
+            -keypass android \
+            -dname "CN=Android Debug,O=Android,C=US"
+        fi
 
         echo ""
         echo "========================================"
-        echo "  SHA-1 DEFINITIVO PARA GOOGLE CLOUD"
+        echo "  SHA-1 ACTUAL DEL KEYSTORE EN USO"
         echo "========================================"
         keytool -list -v \
           -keystore "$KEYSTORE" \
@@ -76,17 +82,6 @@ jobs:
           -storepass android \
           -keypass android \
           | grep "SHA1:"
-        echo "========================================"
-        echo ""
-        echo "========================================"
-        echo "  COPIA TODO EL TEXTO DE ABAJO COMPLETO"
-        echo "  (entre BEGIN y END) PARA EL SECRET"
-        echo "  DEBUG_KEYSTORE_BASE64"
-        echo "========================================"
-        echo "-----BEGIN KEYSTORE BASE64-----"
-        base64 -w 0 "$KEYSTORE"
-        echo ""
-        echo "-----END KEYSTORE BASE64-----"
         echo "========================================"
 
     - name: Grant Gradle Execution Permissions
