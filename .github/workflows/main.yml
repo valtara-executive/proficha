@@ -48,34 +48,27 @@ jobs:
           echo "server_client_id injected."
         fi
 
-    - name: Grant Gradle Execution Permissions
-      run: chmod +x android/gradlew
-
-    - name: Compile Application (Debug APK)
+    - name: PASO TEMPORAL — Generar keystore definitivo UNA SOLA VEZ
       run: |
-        cd android
-        ./gradlew assembleDebug
+        KEYSTORE_DIR="$HOME/.android"
+        KEYSTORE="$KEYSTORE_DIR/debug.keystore"
+        mkdir -p "$KEYSTORE_DIR"
 
-    - name: Generate debug keystore if missing and extract SHA-1
-      run: |
-        KEYSTORE="$HOME/.android/debug.keystore"
-        mkdir -p "$HOME/.android"
-        if [ ! -f "$KEYSTORE" ]; then
-          echo "Keystore not found — generating..."
-          keytool -genkeypair \
-            -v \
-            -keystore "$KEYSTORE" \
-            -alias androiddebugkey \
-            -keyalg RSA \
-            -keysize 2048 \
-            -validity 10000 \
-            -storepass android \
-            -keypass android \
-            -dname "CN=Android Debug,O=Android,C=US"
-        fi
+        echo "Generando el keystore definitivo (esta es la ULTIMA vez que cambia)..."
+        keytool -genkeypair \
+          -v \
+          -keystore "$KEYSTORE" \
+          -alias androiddebugkey \
+          -keyalg RSA \
+          -keysize 2048 \
+          -validity 10000 \
+          -storepass android \
+          -keypass android \
+          -dname "CN=Android Debug,O=Android,C=US"
+
         echo ""
         echo "========================================"
-        echo "  SHA-1 PARA GOOGLE CLOUD CONSOLE"
+        echo "  SHA-1 DEFINITIVO PARA GOOGLE CLOUD"
         echo "========================================"
         keytool -list -v \
           -keystore "$KEYSTORE" \
@@ -84,6 +77,25 @@ jobs:
           -keypass android \
           | grep "SHA1:"
         echo "========================================"
+        echo ""
+        echo "========================================"
+        echo "  COPIA TODO EL TEXTO DE ABAJO COMPLETO"
+        echo "  (entre BEGIN y END) PARA EL SECRET"
+        echo "  DEBUG_KEYSTORE_BASE64"
+        echo "========================================"
+        echo "-----BEGIN KEYSTORE BASE64-----"
+        base64 -w 0 "$KEYSTORE"
+        echo ""
+        echo "-----END KEYSTORE BASE64-----"
+        echo "========================================"
+
+    - name: Grant Gradle Execution Permissions
+      run: chmod +x android/gradlew
+
+    - name: Compile Application (Debug APK)
+      run: |
+        cd android
+        ./gradlew assembleDebug
 
     - name: Upload Generated APK
       uses: actions/upload-artifact@v4
@@ -91,3 +103,4 @@ jobs:
         name: proficha-app-debug
         path: android/app/build/outputs/apk/debug/app-debug.apk
         retention-days: 7
+
