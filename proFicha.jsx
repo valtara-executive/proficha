@@ -1988,7 +1988,7 @@ const FormEngine = ({
           <div className="pf-field-optional">
             <button 
               type="button"
-              className={`pf-btn pf-btn-ghost pf-btn-sm ${isOmittedField ? "pf-btn-active" : ""}`}
+              className={'pf-btn pf-btn-ghost pf-btn-sm' + (isOmittedField ? ' pf-btn-active' : '')}
               onClick={() => handleFieldChange(field.id, "", true)}
             >
               {isOmittedField 
